@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>特别惊喜 - 吴静雯生日快乐！</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        /* 优化整体布局 */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+            font-family: "Microsoft YaHei", sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 添加导航栏样式 */
+        .nav {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #9c27b0;
+            font-size: 1.1em;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #d81b60;
+            background: rgba(216, 27, 96, 0.1);
+        }
+
+        /* 优化容器布局 */
+        .surprise-container {
+            max-width: 1200px;
+            padding: 120px 20px 40px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* 优化卡片样式 */
+        .gift-box {
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: default;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 30px;
+            z-index: 1;
+        }
+
+        .gift-box .content-wrapper {
+            transform: translateZ(20px);
+            transition: transform 0.5s ease;
+        }
+
+        .gift-box:hover .content-wrapper {
+            transform: translateZ(40px);
+        }
+
+        .gift-box .ribbon {
+            transform-origin: right top;
+            animation: ribbonWave 3s ease-in-out infinite;
+        }
+
+        @keyframes ribbonWave {
+            0%, 100% { transform: rotate(45deg) scale(1); }
+            50% { transform: rotate(45deg) scale(1.1) translateY(-10px); }
+        }
+
+        /* 添加页脚样式 */
+        .footer {
+            text-align: center;
+            padding: 15px 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(252, 228, 236, 0.9), rgba(255, 255, 255, 0.9));
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(5px);
+            z-index: 99;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .footer p {
+            margin: 0;
+            color: #d81b60;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .gift-box:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(216, 27, 96, 0.15);
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        /* 优化图标样式 */
+        .gift-icon {
+            font-size: 3em;
+            color: #d81b60;
+            margin-bottom: 15px;
+            transition: transform 0.4s ease;
+        }
+
+        .gift-box:hover .gift-icon {
+            transform: scale(1.2) rotate(15deg);
+        }
+
+        /* 优化标题样式 */
+        .gift-title {
+            font-family: "楷体", "KaiTi", "STKaiti", serif;
+            font-size: 1.8em;
+            color: #d81b60;
+            margin: 15px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 优化内容布局 */
+        .gift-content {
+            text-align: center;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ���整文字大小 */
+        .gift-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #666;
+            letter-spacing: 1px;
+            margin: 10px 0;
+        }
+
+        .floating-elements {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .float-item {
+            position: absolute;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+            animation: sparkle 2s linear infinite;
+        }
+
+        @keyframes sparkle {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1) rotate(180deg); opacity: 1; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+
+        .ribbon {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, #ff80ab, #ff4081);
+            transform: rotate(45deg);
+            right: -100px;
+            top: -100px;
+            transition: all 0.4s ease;
+            z-index: 1;
+        }
+
+        .gift-box:hover .ribbon {
+            transform: rotate(45deg) scale(1.1);
+        }
+
+        .music-note {
+            position: absolute;
+            font-size: 24px;
+            color: #d81b60;
+            animation: musicFloat 3s linear infinite;
+        }
+
+        @keyframes musicFloat {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-20px) rotate(10deg); opacity: 1; }
+            100% { transform: translateY(-40px) rotate(0deg); opacity: 0; }
+        }
+
+        /* 添加音乐播放器样式 */
+        .music-player {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .rotating {
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 添加烟花动画相关样式 */
+        .firework-box {
+            position: relative;
+            overflow: visible !important;
+        }
+
+        .firework, .particle {
+            position: absolute;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .firework {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+            opacity: 0;
+            filter: blur(1px);
+            box-shadow: 0 0 10px currentColor;
+            mix-blend-mode: screen;
+        }
+
+        .particle {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            animation: spread 1s ease-out forwards;
+            filter: blur(0.5px);
+            box-shadow: 0 0 10px currentColor;
+            position: fixed;
+            transform-origin: center center;
+        }
+
+        @keyframes spread {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* 添加容器样式 */
+        .fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* 优化按钮样式 */
+        .celebrate-btn {
+            background: linear-gradient(45deg, #ff4081, #e91e63);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(233, 30, 99, 0.3);
+            width: auto;
+            min-width: 120px;
+            z-index: 2;
+        }
+
+        .celebrate-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .celebrate-btn:active::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(100, 100);
+                opacity: 0;
+            }
+        }
+
+        .celebrate-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.4);
+        }
+
+        /* 修改渐入动画样式 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 添加背景动画 */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: linear-gradient(45deg, 
+                #fce4ec 0%, 
+                #f3e5f5 25%, 
+                #fff1f2 50%, 
+                #f3e5f5 75%, 
+                #fce4ec 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .gift-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gift-box:hover::before {
+            opacity: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav {
+            z-index: 1000;
+        }
+
+        /* 新添加的动画效果 */
+        @keyframes sparkle {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+        
+        .gift-box .fa-crown {
+            transition: all 0.5s ease;
+        }
+        
+        .gift-box:hover .fa-crown {
+            transform: scale(1.2) rotate(15deg);
+            color: #ffd700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        /* 魔法效果的��画 */
+        @keyframes magicSparkle {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: scale(1.5) rotate(180deg); opacity: 1; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+
+        .magic-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #fff, #7c4dff);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    <!-- 添加导航栏 -->
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-arrow-left"></i> 返回</a></li>
+        </ul>
+    </nav>
+
+    <!-- 添加音乐播放器 -->
+    <audio id="bgMusic" loop>
+        <source src="music/birthday.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="music-player" onclick="toggleMusic()">
+        <i class="fas fa-music"></i>
+    </div>
+
+    <div class="floating-elements"></div>
+    
+    <div class="surprise-container">
+        <div class="gift-box">
+            <i class="fas fa-heart gift-icon"></i>
+            <h3 class="gift-title">温暖的祝福</h3>
+            <div class="gift-content">
+                <p class="gift-text">亲爱的姐妹<br>
+                愿你永远保持那份美好的笑容，<br>
+                愿你的生活充满阳光与快乐，<br>
+                愿你所有的梦想都实现。</p>
+            </div>
+        </div>
+
+        <div class="gift-box">
+            <i class="fas fa-star gift-icon"></i>
+            <h3 class="gift-title">美好的期望</h3>
+            <div class="gift-content">
+                <p class="gift-text">愿你的每一天都如这阳光般温暖，<br>
+                愿你的未来充满无限可能，<br>
+                愿你永远开心快乐，无忧无虑。</p>
+            </div>
+        </div>
+
+        <div class="gift-box">
+            <i class="fas fa-gift gift-icon"></i>
+            <h3 class="gift-title">特别的礼物</h3>
+            <div class="gift-content">
+                <p class="gift-text">这个特别的日子里，<br>
+                我用这个网页来表达我最真挚的祝福，<br>
+                愿你的生日充满欢乐和温馨。</p>
+            </div>
+        </div>
+
+        <div class="gift-box">
+            <i class="fas fa-music gift-icon"></i>
+            <h3 class="gift-title">生日祝歌</h3>
+            <div class="gift-content">
+                <p class="gift-text">Happy Birthday to You!<br>
+                祝你生日快乐！<br>
+                愿这一天充满欢笑和幸福。</p>
+            </div>
+        </div>
+
+        <div class="gift-box firework-box">
+            <i class="fas fa-birthday-cake gift-icon"></i>
+            <h3 class="gift-title">烟花庆典</h3>
+            <div class="gift-content">
+                <p class="gift-text">点击下方按钮<br>
+                让我们一起欣赏绚丽的烟花<br>
+                庆祝这特别的日子！</p>
+                <button class="celebrate-btn">点击庆祝</button>
+            </div>
+        </div>
+
+        <!-- 新添加的卡片 -->
+        <div class="gift-box">
+            <i class="fas fa-crown gift-icon"></i>
+            <h3 class="gift-title">公主殿下</h3>
+            <div class="gift-content">
+                <p class="gift-text">亲爱的姐妹：<br>
+                你就像一位优雅的公主，<br>
+                愿你的生日像童话一样美好，<br>
+                愿你永远保持那份纯真和美丽。</p>
+                <button class="celebrate-btn">点亮皇冠 👑</button>
+            </div>
+            <div class="ribbon"></div>
+        </div>
+
+        <!-- 添加新的惊喜卡片 -->
+        <div class="gift-box">
+            <i class="fas fa-magic gift-icon"></i>
+            <h3 class="gift-title">魔法时刻</h3>
+            <div class="gift-content">
+                <p class="gift-text">亲爱的姐妹：<br>
+                愿每一个瞬间都充满魔法，<br>
+                让你的生活如童话般美好，<br>
+                让每一天都闪耀着幸福的光芒。</p>
+                <button class="celebrate-btn">施放魔法 ✨</button>
+            </div>
+            <div class="ribbon"></div>
+        </div>
+
+    </div>
+
+    <!-- 添加页脚 -->
+    <footer class="footer">
+        <p>版权所有 © 2024 彭浩然</p>
+    </footer>
+
+    <script>
+        // 音乐控制
+        const music = document.getElementById('bgMusic');
+        const musicIcon = document.querySelector('.music-player i');
+        let isPlaying = false;
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicIcon.classList.remove('rotating');
+            } else {
+                music.play();
+                musicIcon.classList.add('rotating');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // 创建漂浮元素
+        function createFloatingElements() {
+            const container = document.querySelector('.floating-elements');
+            const elements = ['🎂', '🎈', '🎁', '✨', '🌟', '💝', '🎉'];
+            
+            for (let i = 0; i < 20; i++) {
+                const element = document.createElement('div');
+                element.className = 'float-item';
+                element.textContent = elements[Math.floor(Math.random() * elements.length)];
+                element.style.left = Math.random() * 100 + 'vw';
+                element.style.top = Math.random() * 100 + 'vh';
+                element.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(element);
+            }
+        }
+
+        // 创建闪烁效果
+        function createSparkles() {
+            const container = document.querySelector('.floating-elements');
+            for (let i = 0; i < 30; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + 'vw';
+                sparkle.style.top = Math.random() * 100 + 'vh';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                container.appendChild(sparkle);
+            }
+        }
+
+        // 礼物盒点击效果
+        document.querySelectorAll('.gift-box').forEach((box, index) => {
+            box.addEventListener('click', function() {
+                this.classList.toggle('open');
+                
+                // 当点击生日祝福礼物盒时自动播放音乐
+                if (index === 3 && this.classList.contains('open') && !isPlaying) {
+                    music.play();
+                    musicIcon.classList.add('rotating');
+                    isPlaying = true;
+                }
+                
+                // 创建音符动画
+                if (this.classList.contains('open')) {
+                    const note = document.createElement('div');
+                    note.className = 'music-note';
+                    note.textContent = '♪';
+                    note.style.left = Math.random() * 80 + 10 + '%';
+                    note.style.top = '80%';
+                    this.appendChild(note);
+                    
+                    setTimeout(() => note.remove(), 3000);
+                }
+            });
+        });
+
+        // 初始化
+        window.addEventListener('load', () => {
+            createFloatingElements();
+            createSparkles();
+        });
+
+        // 修改礼物盒动画
+        document.querySelectorAll('.gift-box').forEach((box, index) => {
+            box.classList.add('fade-in');
+            box.style.animationDelay = (index * 0.2) + 's';
+        });
+
+        // 烟花动画效果
+        function createFirework(x, y, color) {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            firework.style.left = x + 'px';
+            firework.style.top = y + 'px';
+            firework.style.backgroundColor = color;
+            
+            const container = document.querySelector('.firework-box');
+            container.appendChild(firework);
+            
+            // 添加音效
+            const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgA...');
+            audio.volume = 0.2;
+            audio.play();
+            
+            // 创建更多粒子
+            for (let i = 0; i < 60; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.backgroundColor = color;
+                particle.style.width = (2 + Math.random() * 2) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                
+                const angle = (i / 60) * Math.PI * 2;
+                const velocity = 80 + Math.random() * 80;
+                particle.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
+                particle.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
+                
+                container.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), 1500);
+            }
+            
+            setTimeout(() => firework.remove(), 1500);
+        }
+
+        // 点击事件处理
+        document.querySelector('.celebrate-btn').addEventListener('click', function(e) {
+            const box = document.querySelector('.firework-box');
+            const rect = box.getBoundingClientRect();
+            const colors = ['#ff4081', '#e91e63', '#ff80ab', '#f50057', '#c51162'];
+            
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * (rect.width - 20) + 10;
+                    const y = rect.height - 50;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    createFirework(x, y, color);
+                }, i * 150);
+            }
+        });
+
+        // 添加鼠标跟踪效果
+        document.addEventListener('mousemove', (e) => {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = e.pageX + 'px';
+            sparkle.style.top = e.pageY + 'px';
+            document.body.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 1000);
+        });
+
+        // 为新卡片添加点击效果
+        document.querySelectorAll('.celebrate-btn').forEach((btn) => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const giftBox = this.closest('.gift-box');
+                const icon = giftBox.querySelector('.gift-icon');
+                
+                // 根据按钮文本执行不同的效果
+                const btnText = this.textContent.trim();
+                
+                switch(btnText) {
+                    case '点击庆祝':
+                        // 烟花效果
+                        createFireworks(giftBox);
+                        playSound('celebration');
+                        break;
+                        
+                    case '点亮皇冠 👑':
+                        // 皇冠效果
+                        icon.style.color = '#ffd700';
+                        icon.style.textShadow = '0 0 15px rgba(255, 215, 0, 0.8)';
+                        createCrownEffect(giftBox);
+                        playSound('sparkle');
+                        break;
+                        
+                    case '施放魔法 ✨':
+                        // 魔法效果
+                        icon.style.color = '#7c4dff';
+                        icon.style.textShadow = '0 0 15px rgba(124, 77, 255, 0.8)';
+                        createMagicEffect(giftBox);
+                        playSound('magic');
+                        break;
+                }
+            });
+        });
+
+        // 添加魔法效果
+        function createMagicEffect(element) {
+            const colors = ['#7c4dff', '#2196f3', '#00bcd4', '#4caf50', '#8bc34a'];
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'magic-particle';
+                particle.style.left = '50%';
+                particle.style.top = '50%';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animation = `magicSparkle ${1 + Math.random()}s ease-out forwards`;
+                particle.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                const angle = (Math.random() * Math.PI * 2);
+                const velocity = 100 + Math.random() * 100;
+                particle.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
+                particle.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
+                
+                element.appendChild(particle);
+                setTimeout(() => particle.remove(), 2000);
+            }
+        }
+
+        // 添加音效函数
+        function playSound(type) {
+            const audio = new Audio();
+            switch(type) {
+                case 'celebration':
+                    audio.src = 'sounds/celebration.mp3';
+                    break;
+                case 'sparkle':
+                    audio.src = 'sounds/sparkle.mp3';
+                    break;
+                case 'magic':
+                    audio.src = 'sounds/magic.mp3';
+                    break;
+            }
+            audio.volume = 0.3;
+            audio.play();
+        }
+
+        // 皇冠特效
+        function createCrownEffect(element) {
+            const colors = ['#ffd700', '#ffeb3b', '#ffc107'];
+            for (let i = 0; i < 30; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'crown-sparkle';
+                sparkle.style.left = '50%';
+                sparkle.style.top = '50%';
+                sparkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                sparkle.style.setProperty('--angle', `${Math.random() * 360}deg`);
+                sparkle.style.setProperty('--distance', `${50 + Math.random() * 50}px`);
+                element.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 2000);
+            }
+        }
+
+        // 添加新的样式
+        const style = document.createElement('style');
+        style.textContent = `
+            .crown-sparkle {
+                position: absolute;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                pointer-events: none;
+                animation: crownSparkle 2s ease-out forwards;
+            }
+
+            @keyframes crownSparkle {
+                0% {
+                    transform: translate(-50%, -50%) rotate(0deg) scale(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(
+                        calc(cos(var(--angle)) * var(--distance)),
+                        calc(sin(var(--angle)) * var(--distance))
+                    ) rotate(360deg) scale(1.5);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 添加烟花效果函数
+        function createFireworks(element) {
+            // 创建烟花容器
+            let container = document.querySelector('.fireworks-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.className = 'fireworks-container';
+                document.body.appendChild(container);
+            }
+
+            const colors = ['#ff4081', '#e91e63', '#ff80ab', '#f50057', '#c51162'];
+            const rect = element.getBoundingClientRect();
+            
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    // 创建烟花粒子
+                    for (let j = 0; j < 30; j++) {
+                        const particle = document.createElement('div');
+                        particle.className = 'particle';
+                        particle.style.backgroundColor = color;
+                        particle.style.left = `${x}px`;
+                        particle.style.top = `${y}px`;
+                        
+                        const angle = (Math.random() * Math.PI * 2);
+                        const velocity = 100 + Math.random() * 150;
+                        particle.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
+                        particle.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
+                        
+                        container.appendChild(particle);
+                        setTimeout(() => particle.remove(), 1500);
+                    }
+                }, i * 200);
+            }
+        }
+
+        // 修改按钮点击事件处理
+        document.querySelectorAll('.celebrate-btn').forEach((btn) => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const giftBox = this.closest('.gift-box');
+                const icon = giftBox.querySelector('.gift-icon');
+                const btnText = this.textContent.trim();
+                
+                switch(btnText) {
+                    case '点击庆祝':
+                        createFireworks(giftBox);
+                        icon.style.color = '#ff4081';
+                        icon.style.animation = 'rotate 1s infinite';
+                        break;
+                        
+                    case '点亮皇冠 👑':
+                        icon.style.color = '#ffd700';
+                        icon.style.textShadow = '0 0 15px rgba(255, 215, 0, 0.8)';
+                        createCrownEffect(giftBox);
+                        break;
+                        
+                    case '施放魔法 ✨':
+                        icon.style.color = '#7c4dff';
+                        icon.style.textShadow = '0 0 15px rgba(124, 77, 255, 0.8)';
+                        createMagicEffect(giftBox);
+                        break;
+                }
+                
+                // 添加按钮动画效果
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 200);
+                
+                // 播放音效
+                const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgA...');
+                audio.volume = 0.2;
+                audio.play();
+            });
+        });
+
+        // 添加新的动画样式
+        const newStyle = document.createElement('style');
+        newStyle.textContent = `
+            @keyframes rotate {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            .particle {
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                border-radius: 50%;
+                pointer-events: none;
+                animation: particleMove 1.5s ease-out forwards;
+            }
+            
+            @keyframes particleMove {
+                0% {
+                    transform: translate(0, 0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(var(--tx), var(--ty));
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(newStyle);
+    </script>
+    <script src="js/common.js"></script>
+</body>
+</html> 

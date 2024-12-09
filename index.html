@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<title>吴静雯生日快乐！</title>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+		<link rel="stylesheet" href="css/common.css">
+		<style>
+			html {
+				scroll-behavior: smooth;
+			}
+
+			body {
+				margin: 0;
+				padding: 0;
+				background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+				font-family: "Microsoft YaHei", sans-serif;
+				min-height: 100vh;
+				overflow-y: auto;
+			}
+
+			/* 头部样式 */
+			.header {
+				padding: 60px 20px;
+				text-align: center;
+				background: rgba(255, 255, 255, 0.9);
+				position: relative;
+				overflow: hidden;
+				margin-top: 0;
+				border-radius: 0 0 30px 30px;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+			}
+
+			.header::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: linear-gradient(45deg, rgba(255, 192, 203, 0.2), rgba(255, 182, 193, 0.2));
+				z-index: 0;
+			}
+
+			.header h1 {
+				color: transparent;
+				background: linear-gradient(45deg, #d81b60, #e91e63, #ec407a);
+				-webkit-background-clip: text;
+				background-clip: text;
+				font-size: clamp(2.5em, 6vw, 4em);
+				text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+				position: relative;
+				z-index: 1;
+				margin: 0;
+				font-family: "楷体", "KaiTi", "STKaiti", serif;
+				font-weight: bold;
+				letter-spacing: 8px;
+				animation: titleFloat 3s ease-in-out infinite;
+			}
+
+			.header::after {
+				content: '🌸';
+				position: absolute;
+				font-size: 40px;
+				bottom: 20px;
+				left: 50%;
+				transform: translateX(-50%);
+				opacity: 0.6;
+				animation: flowerSway 3s ease-in-out infinite;
+			}
+
+			@keyframes titleFloat {
+				0%, 100% { transform: translateY(0); }
+				50% { transform: translateY(-10px); }
+			}
+
+			@keyframes flowerSway {
+				0%, 100% { transform: translateX(-50%) rotate(0deg); }
+				50% { transform: translateX(-50%) rotate(15deg); }
+			}
+
+			/* 主要内容区域 */
+			.content {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+				gap: 30px;
+				max-width: 1200px;
+				margin: 60px auto;
+				padding: 0 20px 100px;
+				position: relative;
+				z-index: 2;
+			}
+
+			.feature-card {
+				background: rgba(255, 255, 255, 0.95);
+				border-radius: 20px;
+				padding: 30px;
+				text-align: center;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+				transition: all 0.3s ease;
+				cursor: pointer;
+				position: relative;
+				overflow: hidden;
+				text-decoration: none;
+				backdrop-filter: blur(10px);
+				border: 1px solid rgba(255, 255, 255, 0.3);
+			}
+
+			.feature-card:hover {
+				transform: translateY(-10px);
+				box-shadow: 0 15px 40px rgba(216, 27, 96, 0.2);
+				background: rgba(255, 255, 255, 0.98);
+			}
+
+			.feature-card i {
+				font-size: 3em;
+				color: #d81b60;
+				margin-bottom: 20px;
+				transition: transform 0.3s ease;
+			}
+
+			.feature-card:hover i {
+				transform: scale(1.1) rotate(5deg);
+			}
+
+			.feature-card h3 {
+				color: #d81b60;
+				font-size: 1.8em;
+				margin-bottom: 15px;
+				font-family: "楷体", "KaiTi", "STKaiti", serif;
+			}
+
+			.feature-card p {
+				color: #666;
+				line-height: 1.6;
+				margin: 10px 0;
+			}
+
+			/* 音乐播放器样式 */
+			.music-player {
+				position: fixed;
+				top: 25px;
+				right: 25px;
+				width: 50px;
+				height: 50px;
+				background: rgba(255, 255, 255, 0.9);
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
+				z-index: 1001;
+				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+				transition: all 0.3s ease;
+			}
+
+			.rotating {
+				animation: rotate 4s linear infinite;
+			}
+
+			@keyframes rotate {
+				from { transform: rotate(0deg); }
+				to { transform: rotate(360deg); }
+			}
+
+			/* 页脚样式 */
+			.footer {
+				text-align: center;
+				padding: 15px 0;
+				background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(252, 228, 236, 0.9), rgba(255, 255, 255, 0.9));
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+				backdrop-filter: blur(5px);
+				z-index: 99;
+				border-top: 1px solid rgba(255, 255, 255, 0.3);
+			}
+
+			.footer p {
+				margin: 0;
+				color: #d81b60;
+				font-size: 0.9em;
+				letter-spacing: 1px;
+				font-weight: 500;
+			}
+
+			.nav {
+				z-index: 1000;
+			}
+		</style>
+	</head>
+	<body>
+		<audio id="bgMusic" loop autoplay muted>
+			<source src="music/birthday.mp3" type="audio/mpeg">
+		</audio>
+		
+		<div class="music-player" onclick="toggleMusic()">
+			<i class="fas fa-music"></i>
+		</div>
+		
+		<div class="header">
+			<div class="decoration"></div>
+			<h1>吴静雯生日快乐</h1>
+		</div>
+		
+		<div class="content">
+			<a href="wishes.html" class="feature-card">
+				<i class="fas fa-heart"></i>
+				<h3>生日祝福</h3>
+				<p>满满的祝福都在这里</p>
+				<p>愿你的生日充满欢乐与温馨</p>
+			</a>
+			
+			<a href="memories.html" class="feature-card">
+				<i class="fas fa-camera"></i>
+				<h3>美好回忆</h3>
+				<p>珍藏我们的美好时光</p>
+				<p>记录每一个难忘瞬间</p>
+			</a>
+			
+			<a href="messages.html" class="feature-card">
+				<i class="fas fa-comments"></i>
+				<h3>留言祝福</h3>
+				<p>温暖的祝福留言</p>
+				<p>分享这份生日的喜悦</p>
+			</a>
+			
+			<a href="surprise.html" class="feature-card">
+				<i class="fas fa-gift"></i>
+				<h3>特别惊喜</h3>
+				<p>为你准备的生日惊喜</p>
+				<p>愿你永远幸福快乐</p>
+			</a>
+			
+			<a href="album.html" class="feature-card">
+				<i class="fas fa-images"></i>
+				<h3>美好相册</h3>
+				<p>记录我们的点点滴滴</p>
+				<p>珍藏每一个美好瞬间</p>
+			</a>
+			
+			<a href="video.html" class="feature-card">
+				<i class="fas fa-video"></i>
+				<h3>精彩视频</h3>
+				<p>记录美好的瞬间</p>
+				<p>珍藏动人的回忆</p>
+			</a>
+		</div>
+
+		<footer class="footer">
+			<p>版权所有 © 2024 彭浩然</p>
+		</footer>
+
+		<script>
+			const music = document.getElementById('bgMusic');
+			const musicIcon = document.querySelector('.music-player i');
+			let isPlaying = true;
+			
+			function toggleMusic() {
+				if (isPlaying) {
+					music.pause();
+					musicIcon.classList.remove('rotating');
+				} else {
+					music.play();
+					musicIcon.classList.add('rotating');
+				}
+				isPlaying = !isPlaying;
+			}
+
+			function initMusic() {
+				document.body.addEventListener('click', function playMusic() {
+					music.muted = false;
+					music.play().then(() => {
+						musicIcon.classList.add('rotating');
+					});
+					document.body.removeEventListener('click', playMusic);
+				}, { once: true });
+			}
+
+			document.addEventListener('DOMContentLoaded', initMusic);
+		</script>
+		<script src="js/common.js"></script>
+	</body>
+</html>

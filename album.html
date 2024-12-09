@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>美好相册 - 吴静雯生日快乐！</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+            font-family: "Microsoft YaHei", sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .nav {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .nav.hidden {
+            transform: translateY(-100%);
+        }
+
+        .nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #d81b60;
+            font-size: 1.1em;
+            padding: 8px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .content {
+            padding: 100px 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 1400px;
+            flex: 1;
+            align-items: start;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .photo-card {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+            opacity: 0;
+            aspect-ratio: 1;
+            will-change: transform;
+            break-inside: avoid;
+            page-break-inside: avoid;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .photo-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            box-sizing: border-box;
+            background: #f5f5f5;
+            transition: transform 0.3s ease;
+            will-change: transform;
+            padding: 10px;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(216, 27, 96, 0.2);
+        }
+
+        .photo-card:hover .photo-img {
+            transform: scale(1.05);
+        }
+
+        /* 图片查看器样式 */
+        .viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(10px);
+            cursor: zoom-out;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .viewer.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .viewer-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            cursor: default;
+        }
+
+        .viewer.active .viewer-content {
+            transform: scale(1);
+        }
+
+        .viewer-img {
+            max-width: 95vw;
+            max-height: 95vh;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            cursor: grab;
+            will-change: transform;
+            pointer-events: auto;
+            touch-action: none;
+            background: white;
+            padding: 20px;
+        }
+
+        .viewer-img:active {
+            cursor: grabbing;
+        }
+
+        .viewer-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            z-index: 2001;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .viewer-prev,
+        .viewer-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            padding: 20px;
+            z-index: 2001;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .viewer-prev { left: 20px; }
+        .viewer-next { right: 20px; }
+
+        @media (max-width: 768px) {
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 15px;
+                padding: 10px;
+            }
+        }
+
+        /* 添加页面过渡效果 */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 添加加载动画 */
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #d81b60;
+            font-size: 1.2em;
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            z-index: 2001;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        /* 添加图片计数器 */
+        .viewer-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        /* 添加加载提示 */
+        .photo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                rgba(243, 229, 245, 0.5), 
+                rgba(252, 228, 236, 0.5)
+            );
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .photo-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border: 3px solid #f3e5f5;
+            border-top-color: #d81b60;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 2;
+            opacity: 0.8;
+        }
+
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .photo-card.loaded::before,
+        .photo-card.loaded::after {
+            opacity: 0;
+        }
+
+        #photo-count {
+            color: #d81b60;
+            font-weight: 500;
+            font-size: 1.1em;
+            background: rgba(216, 27, 96, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .photo-card:hover .photo-caption {
+            transform: translateY(0);
+        }
+
+        /* 修改标题样式 */
+        .header {
+            text-align: center;
+            padding: 120px 20px 60px;
+            background: rgba(255, 255, 255, 0.9);
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 192, 203, 0.2), rgba(255, 182, 193, 0.2));
+            z-index: 0;
+        }
+        
+        .header h1 {
+            color: transparent;
+            background: linear-gradient(45deg, #d81b60, #e91e63, #ec407a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            font-size: clamp(2.5em, 6vw, 4em);
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-family: "楷体", "KaiTi", "STKaiti", serif;
+            font-weight: bold;
+            letter-spacing: 8px;
+            animation: titleFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* 修改页脚样式 */
+        .footer {
+            text-align: center;
+            padding: 15px 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(252, 228, 236, 0.9), rgba(255, 255, 255, 0.9));
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(5px);
+            z-index: 99;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .footer p {
+            margin: 0;
+            color: #d81b60;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- 添加音乐播放器 -->
+    <audio id="bgMusic" loop>
+        <source src="music/yq.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="music-player" onclick="toggleMusic()">
+        <i class="fas fa-music"></i>
+    </div>
+
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-arrow-left"></i> 返回</a></li>
+        </ul>
+    </nav>
+
+    <div class="header">
+        <div class="decoration"></div>
+        <h1>美好相册</h1>
+    </div>
+
+    <div class="content">
+        <div class="photo-grid"></div>
+    </div>
+
+    <div class="viewer">
+        <div class="viewer-close"><i class="fas fa-times"></i></div>
+        <div class="viewer-prev"><i class="fas fa-chevron-left"></i></div>
+        <div class="viewer-next"><i class="fas fa-chevron-right"></i></div>
+        <div class="viewer-content">
+            <img class="viewer-img" src="" alt="">
+        </div>
+        <div class="viewer-counter"></div>
+    </div>
+
+    <div class="loading">
+        <i class="fas fa-spinner fa-spin"></i> 正在加载照片...
+    </div>
+
+    <footer class="footer">
+        <p>版权所有 © 2024 彭浩然</p>
+    </footer>
+
+    <script>
+        const totalPhotos = 100;
+        
+        function loadPhotos() {
+            const grid = document.querySelector('.photo-grid');
+            const loading = document.querySelector('.loading');
+            loading.classList.add('active');
+
+            const fragment = document.createDocumentFragment();
+            let loadedCount = 0;
+            
+            // 创建100张照片的卡片
+            for (let i = 1; i <= totalPhotos; i++) {
+                const card = document.createElement('div');
+                card.className = 'photo-card';
+                
+                const img = document.createElement('img');
+                img.className = 'photo-img';
+                img.src = `photos/daily/${i}.jpg`;
+                img.alt = `照片 ${i}`;
+                
+                img.onload = () => {
+                    loadedCount++;
+                    card.classList.add('loaded');
+                    if (loadedCount === totalPhotos) {
+                        loading.classList.remove('active');
+                        requestAnimationFrame(() => {
+                            document.querySelectorAll('.photo-card').forEach(card => {
+                                card.classList.add('visible');
+                            });
+                        });
+                    }
+                };
+                
+                card.appendChild(img);
+                fragment.appendChild(card);
+            }
+            
+            grid.appendChild(fragment);
+        }
+
+        const viewer = document.querySelector('.viewer');
+        const viewerImg = document.querySelector('.viewer-img');
+
+        function showViewer(index) {
+            currentIndex = index;
+            viewerImg.src = `photos/daily/${index + 1}.jpg`;
+            viewer.classList.add('active');
+            updateCounter();
+            preloadImages(index);
+        }
+
+        function hideViewer() {
+            viewer.classList.remove('active');
+        }
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % totalPhotos;
+            viewerImg.src = `photos/daily/${currentIndex + 1}.jpg`;
+            updateCounter();
+        }
+
+        function showPrev() {
+            currentIndex = (currentIndex - 1 + totalPhotos) % totalPhotos;
+            viewerImg.src = `photos/daily/${currentIndex + 1}.jpg`;
+            updateCounter();
+        }
+
+        document.querySelector('.viewer-close').addEventListener('click', hideViewer);
+        document.querySelector('.viewer-next').addEventListener('click', showNext);
+        document.querySelector('.viewer-prev').addEventListener('click', showPrev);
+
+        document.addEventListener('keydown', (e) => {
+            if (!viewer.classList.contains('active')) return;
+            if (e.key === 'Escape') hideViewer();
+            if (e.key === 'ArrowRight') showNext();
+            if (e.key === 'ArrowLeft') showPrev();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadPhotos();
+            window.addEventListener('scroll', handleScroll);
+        });
+
+        function handleScroll() {
+            const cards = document.querySelectorAll('.photo-card:not(.visible)');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 1.2) {
+                    card.classList.add('visible');
+                }
+            });
+        }
+
+        function updateCounter() {
+            document.querySelector('.viewer-counter').textContent = 
+                `${currentIndex + 1} / ${totalPhotos}`;
+        }
+
+        // 添加触摸滑动支持
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        viewer.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        viewer.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchEndX < touchStartX - 50) showNext();
+            if (touchEndX > touchStartX + 50) showPrev();
+        });
+
+        // 优化图片加载
+        function preloadImages(index) {
+            const indexes = [
+                (index + 1) % totalPhotos,
+                (index - 1 + totalPhotos) % totalPhotos,
+                (index + 2) % totalPhotos,
+                (index - 2 + totalPhotos) % totalPhotos
+            ];
+            
+            indexes.forEach(i => {
+                const img = new Image();
+                img.src = `photos/daily/${i + 1}.jpg`;
+            });
+        }
+
+        const music = document.getElementById('bgMusic');
+        const musicIcon = document.querySelector('.music-player i');
+        let isPlaying = false;
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicIcon.classList.remove('rotating');
+            } else {
+                music.play();
+                musicIcon.classList.add('rotating');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // 添加自动播放功能
+        function initAutoPlay() {
+            // 监听任意点击事件
+            document.addEventListener('click', function autoPlay() {
+                if (!isPlaying) {
+                    music.play();
+                    musicIcon.classList.add('rotating');
+                    isPlaying = true;
+                }
+                // 移除监听器，确保只执行一次
+                document.removeEventListener('click', autoPlay);
+            }, { once: true });
+        }
+
+        // 页面加载完成后初始化自动播放
+        document.addEventListener('DOMContentLoaded', initAutoPlay);
+    </script>
+    <script src="js/common.js"></script>
+</body>
+</html> 

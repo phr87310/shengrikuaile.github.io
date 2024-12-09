@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>欢迎 - 吴静雯生日快乐！</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        .welcome-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+            animation: fadeIn 1s ease;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 60px;
+        }
+
+        .welcome-title {
+            color: transparent;
+            background: linear-gradient(45deg, #d81b60, #e91e63, #ec407a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            font-family: "楷体", "KaiTi", "STKaiti", serif;
+        }
+
+        .enter-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #d81b60, #e91e63);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .enter-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(216, 27, 96, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .welcome-text {
+            color: #666;
+            line-height: 1.8;
+            margin: 20px 0;
+        }
+
+        .decoration {
+            font-size: 2em;
+            color: #d81b60;
+            margin: 20px 0;
+        }
+
+        /* 优化雪花效果 */
+        .snowflake {
+            position: fixed;
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            animation: snowfall ease-in-out infinite;
+            z-index: 1;
+            filter: blur(0.3px);
+            will-change: transform;
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(-100vh) translateX(-50px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(0) translateX(50px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(100vh) translateX(-50px) rotate(360deg);
+            }
+        }
+
+        /* 优化爱心效果 */
+        .heart {
+            position: fixed;
+            color: #e91e63;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatHeart 3s ease-in-out infinite;
+            text-shadow: 0 0 5px rgba(233, 30, 99, 0.3);
+            will-change: transform, opacity;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(-50px) scale(0) rotate(-45deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(50vh) scale(1.2) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) scale(0) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* 优化星星效果 */
+        .star {
+            position: fixed;
+            color: #ffd700;
+            pointer-events: none;
+            z-index: 1;
+            animation: twinkle 3s linear infinite;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+            will-change: transform, opacity;
+        }
+
+        @keyframes twinkle {
+            0% {
+                transform: translateY(-50px) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(50vh) scale(1) rotate(180deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) scale(0) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 添加生日时间样式 */
+        .birthday-date {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #d81b60, #e91e63);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            box-shadow: 0 5px 20px rgba(216, 27, 96, 0.3);
+            animation: dateFloat 3s ease-in-out infinite;
+            white-space: nowrap;
+            letter-spacing: 1px;
+        }
+
+        .birthday-date i {
+            margin-right: 8px;
+            animation: clockSpin 2s linear infinite;
+        }
+
+        @keyframes dateFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        @keyframes clockSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 添加音乐播放器样式 */
+        .music-player {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .music-player i {
+            font-size: 24px;
+            color: #d81b60;
+        }
+
+        .rotating {
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- 添加雪花容器 -->
+    <div id="snowflakes"></div>
+
+    <!-- 添加音乐播放器 -->
+    <audio id="bgMusic" loop autoplay muted>
+        <source src="music/birthday.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="music-player" onclick="toggleMusic()">
+        <i class="fas fa-music"></i>
+    </div>
+
+    <div class="welcome-card">
+        <div class="decoration">🌸</div>
+        <h1 class="welcome-title">18岁生日快乐</h1>
+        <p class="welcome-text">吴静雯(姐妹)：</p>
+        <p class="welcome-text">在你18岁这个特别的日子里</p>
+        <p class="welcome-text">这是我为你准备的成人礼物</p>
+        <p class="welcome-text">希望你能喜欢</p>
+        <a href="index.html" class="enter-btn">点击进入 <i class="fas fa-heart"></i></a>
+        <div class="birthday-date">
+            <i class="fas fa-clock"></i>
+            18岁生日：2024年12月15日
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById('bgMusic');
+        const musicIcon = document.querySelector('.music-player i');
+        let isPlaying = true;
+        
+        // 点击任意处播放音乐
+        function initMusic() {
+            document.body.addEventListener('click', function playMusic() {
+                music.muted = false;
+                music.play().then(() => {
+                    musicIcon.classList.add('rotating');
+                });
+                // 移除点击事件监听器，确保只执行一次
+                document.body.removeEventListener('click', playMusic);
+            }, { once: true });  // 使用 once 选项，事件只触发一次
+        }
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicIcon.classList.remove('rotating');
+            } else {
+                music.play();
+                musicIcon.classList.add('rotating');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // 页面加载完成后初始化音乐
+        document.addEventListener('DOMContentLoaded', initMusic);
+
+        // 初始化屏幕填充
+        function initializeScreen() {
+            const screenHeight = window.innerHeight;
+            const screenWidth = window.innerWidth;
+            const container = document.getElementById('snowflakes');
+
+            // 初始化雪花
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.textContent = ['❄', '❅', '❆', '✧', '✦'][Math.floor(Math.random() * 5)];
+                snowflake.style.left = Math.random() * screenWidth + 'px';
+                snowflake.style.top = -50 + Math.random() * screenHeight + 'px';
+                snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                container.appendChild(snowflake);
+            }
+
+            // 初始化爱心
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = ['❤', '💖', '💗', '💓', '💕'][Math.floor(Math.random() * 5)];
+                heart.style.left = Math.random() * screenWidth + 'px';
+                heart.style.top = -50 + Math.random() * screenHeight + 'px';
+                heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                heart.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(heart);
+            }
+
+            // 初始化星星
+            for (let i = 0; i < 30; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.textContent = ['✦', '✧', '⋆', '✫', '✬'][Math.floor(Math.random() * 5)];
+                star.style.left = Math.random() * screenWidth + 'px';
+                star.style.top = -50 + Math.random() * screenHeight + 'px';
+                star.style.fontSize = (Math.random() * 15 + 12) + 'px';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        function createHearts() {
+            const hearts = ['❤', '💖', '💗', '💓', '💕'];
+            const container = document.getElementById('snowflakes');
+            
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '-50px';  // 从顶部开始
+                heart.style.animationDuration = (Math.random() * 1.5 + 2) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                
+                container.appendChild(heart);
+                setTimeout(() => heart.remove(), 3000);
+            }, 400);
+        }
+
+        function createStars() {
+            const stars = ['✦', '✧', '⋆', '✫', '✬'];
+            const container = document.getElementById('snowflakes');
+            
+            setInterval(() => {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.textContent = stars[Math.floor(Math.random() * stars.length)];
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = '-50px';  // 从顶部开始
+                star.style.animationDuration = (Math.random() * 1.5 + 1) + 's';
+                star.style.fontSize = (Math.random() * 15 + 12) + 'px';
+                
+                container.appendChild(star);
+                setTimeout(() => star.remove(), 3000);
+            }, 500);
+        }
+
+        function createSnowflakes() {
+            const snowflakes = ['❄', '❅', '❆', '✧', '✦'];
+            const container = document.getElementById('snowflakes');
+            
+            setInterval(() => {
+                for (let i = 0; i < 2; i++) {
+                    const snowflake = document.createElement('div');
+                    snowflake.className = 'snowflake';
+                    snowflake.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+                    snowflake.style.left = Math.random() * 100 + 'vw';
+                    snowflake.style.top = '-50px';  // 从顶部开始
+                    snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    snowflake.style.opacity = Math.random();
+                    snowflake.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                    
+                    container.appendChild(snowflake);
+                    setTimeout(() => snowflake.remove(), 5000);
+                }
+            }, 200);
+        }
+
+        // 初始化效果
+        document.addEventListener('DOMContentLoaded', () => {
+            // 先填充屏幕
+            initializeScreen();
+            // 然后开始持续创建新的元素
+            createSnowflakes();
+            createHearts();
+            createStars();
+        });
+    </script>
+</body>
+</html> 

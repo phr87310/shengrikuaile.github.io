@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>精彩视频 - 吴静雯生日快乐！</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/common.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+            font-family: "Microsoft YaHei", sans-serif;
+            min-height: 100vh;
+        }
+
+        /* 标题样式 */
+        .header {
+            text-align: center;
+            padding: 120px 20px 60px;
+            background: rgba(255, 255, 255, 0.9);
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 192, 203, 0.2), rgba(255, 182, 193, 0.2));
+            z-index: 0;
+        }
+        
+        .header h1 {
+            color: transparent;
+            background: linear-gradient(45deg, #d81b60, #e91e63, #ec407a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            font-size: clamp(2.5em, 6vw, 4em);
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-family: "楷体", "KaiTi", "STKaiti", serif;
+            font-weight: bold;
+            letter-spacing: 8px;
+            animation: titleFloat 3s ease-in-out infinite;
+        }
+
+        /* 优化导航栏样式 */
+        .nav {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #d81b60;
+            font-size: 1.1em;
+            padding: 8px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover {
+            background: rgba(216, 27, 96, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* 优化音乐播放器样式 */
+        .music-player {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .music-player:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .music-player i {
+            font-size: 24px;
+            color: #d81b60;
+        }
+
+        /* 修改视频卡片样式 */
+        .video-card {
+            background: transparent;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(216, 27, 96, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 5px;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(216, 27, 96, 0.15);
+            border-color: rgba(255, 192, 203, 0.5);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: transparent;
+        }
+
+        /* 优化视频控件样式 */
+        video::-webkit-media-controls {
+            background: transparent !important;
+        }
+
+        video::-webkit-media-controls-panel {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent) !important;
+        }
+
+        video::-webkit-media-controls-play-button {
+            background-color: rgba(216, 27, 96, 0.8) !important;
+            border-radius: 50% !important;
+            width: 40px !important;
+            height: 40px !important;
+            transform: scale(0.7) !important;
+            transition: transform 0.2s ease !important;
+        }
+
+        video::-webkit-media-controls-play-button:hover {
+            transform: scale(0.8) !important;
+            background-color: rgba(233, 30, 99, 0.9) !important;
+        }
+
+        video::-webkit-media-controls-timeline {
+            background: rgba(255, 255, 255, 0.2) !important;
+            border-radius: 10px !important;
+            height: 4px !important;
+        }
+
+        video::-webkit-media-controls-timeline:hover {
+            height: 6px !important;
+        }
+
+        video::-webkit-media-controls-current-time-display,
+        video::-webkit-media-controls-time-remaining-display {
+            color: #fff !important;
+            text-shadow: 0 0 2px rgba(0, 0, 0, 0.5) !important;
+            font-family: "Microsoft YaHei", sans-serif !important;
+            font-size: 13px !important;
+        }
+
+        video::-webkit-media-controls-volume-slider {
+            background: rgba(255, 255, 255, 0.2) !important;
+            border-radius: 10px !important;
+            height: 4px !important;
+        }
+
+        video::-webkit-media-controls-mute-button {
+            background: transparent !important;
+            width: 30px !important;
+            height: 30px !important;
+            transform: scale(0.8) !important;
+        }
+
+        /* 添加视频悬停效果 */
+        .video-container:hover video::-webkit-media-controls-panel {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.3), transparent) !important;
+        }
+
+        /* 修改装饰元素样式 */
+        .video-card::before,
+        .video-card::after {
+            content: '🌸';
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .video-card::before {
+            top: -5px;
+            left: -5px;
+            transform: rotate(-15deg);
+        }
+
+        .video-card::after {
+            bottom: -5px;
+            right: -5px;
+            transform: rotate(15deg);
+        }
+
+        .video-card:hover::before {
+            transform: rotate(-30deg) scale(1.2);
+            opacity: 0.8;
+        }
+
+        .video-card:hover::after {
+            transform: rotate(30deg) scale(1.2);
+            opacity: 0.8;
+        }
+
+        /* 添加加载动画 */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .video-card.loading::before,
+        .video-card.loading::after {
+            animation: heartbeat 1s infinite;
+        }
+
+        /* 修改内容区域布局 */
+        .content {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+            padding-bottom: 100px;
+        }
+
+        /* 页脚样式 */
+        .footer {
+            text-align: center;
+            padding: 15px 0;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(252, 228, 236, 0.9), rgba(255, 255, 255, 0.9));
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+            backdrop-filter: blur(5px);
+            z-index: 99;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .footer p {
+            margin: 0;
+            color: #d81b60;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 添加动画延迟 */
+        .video-card:nth-child(1) { animation-delay: 0.1s; }
+        .video-card:nth-child(2) { animation-delay: 0.2s; }
+        .video-card:nth-child(3) { animation-delay: 0.3s; }
+        .video-card:nth-child(4) { animation-delay: 0.4s; }
+
+        /* 添���响应式布局 */
+        @media (max-width: 768px) {
+            .content {
+                padding: 0 15px;
+                gap: 30px;
+            }
+
+            .video-card {
+                border-radius: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 0 10px;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 音乐播放器 -->
+    <audio id="bgMusic" loop>
+        <source src="music/birthday.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="music-player" onclick="toggleMusic()">
+        <i class="fas fa-music"></i>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-arrow-left"></i> 返回</a></li>
+        </ul>
+    </nav>
+
+    <!-- 标题 -->
+    <div class="header">
+        <div class="decoration"></div>
+        <h1>精彩视频</h1>
+    </div>
+
+    <!-- 视频内容 -->
+    <div class="content">
+        <!-- 添加6个视频卡片 -->
+        <div class="video-card">
+            <div class="video-container">
+                <video controls>
+                    <source src="videos/1.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="video-container">
+                <video controls>
+                    <source src="videos/2.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="video-container">
+                <video controls>
+                    <source src="videos/3.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="video-container">
+                <video controls>
+                    <source src="videos/4.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="video-container">
+                <video controls>
+                    <source src="videos/5.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="video-container">
+                <video controls>
+                    <source src="videos/6.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>版权所有 © 2024 彭浩然</p>
+    </footer>
+
+    <!-- 音乐控制脚本 -->
+    <script>
+        // 视频互斥播放控制
+        const videos = document.querySelectorAll('video');
+        
+        videos.forEach(video => {
+            video.addEventListener('play', function() {
+                // 当一个视频播放时，暂停其他所有视频
+                videos.forEach(otherVideo => {
+                    if (otherVideo !== video && !otherVideo.paused) {
+                        otherVideo.pause();
+                    }
+                });
+            });
+        });
+        
+        // 点击视频卡片时自动播放该视频，暂停其他视频
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const video = this.querySelector('video');
+                if (video.paused) {
+                    // 暂停其他所有视频
+                    videos.forEach(otherVideo => {
+                        if (otherVideo !== video && !otherVideo.paused) {
+                            otherVideo.pause();
+                        }
+                    });
+                    video.play();
+                }
+            });
+        });
+
+        // 音乐控制脚本
+        const music = document.getElementById('bgMusic');
+        const musicIcon = document.querySelector('.music-player i');
+        let isPlaying = false;
+        
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicIcon.classList.remove('rotating');
+            } else {
+                music.play();
+                musicIcon.classList.add('rotating');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // 添加自动播放功能
+        function initAutoPlay() {
+            document.addEventListener('click', function autoPlay() {
+                if (!isPlaying) {
+                    music.play();
+                    musicIcon.classList.add('rotating');
+                    isPlaying = true;
+                }
+                document.removeEventListener('click', autoPlay);
+            }, { once: true });
+        }
+
+        document.addEventListener('DOMContentLoaded', initAutoPlay);
+    </script>
+    <script src="js/common.js"></script>
+</body>
+</html> 
