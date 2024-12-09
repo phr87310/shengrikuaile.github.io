@@ -1,0 +1,23 @@
+/* 雪花效果 */
+.snowflake {
+    position: fixed;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    pointer-events: none;
+    animation: snowfall ease-in-out infinite;
+    z-index: 1;
+    filter: blur(0.3px);
+    will-change: transform;
+}
+
+@keyframes snowfall {
+    0% {
+        transform: translateY(-100vh) translateX(-50px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(0) translateX(50px) rotate(180deg);
+    }
+    100% {
+        transform: translateY(100vh) translateX(-50px) rotate(360deg);
+    }
+} 
