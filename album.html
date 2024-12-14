@@ -5,7 +5,7 @@
     <title>美好相册 - 吴静雯生日快乐！</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="css/common.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
     <style>
         body {
             margin: 0;
@@ -390,99 +390,105 @@
             font-weight: 500;
         }
 
-        .password-container {
+        /* 添加密码框样式 */
+        #password-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin: 100px auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
+            height: 100vh; /* 使其占满整个视口高度 */
+            background: rgba(255, 255, 255, 0.9); /* 半透明背景 */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            z-index: 1000; /* 确保在其他内容之上 */
+        }
+
+        #password-container h2 {
+            margin-bottom: 20px;
+            color: #d81b60; /* 标题颜色 */
         }
 
         #password {
-            width: 100%;
             padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #d81b60;
+            border: 1px solid #d81b60; /* 边框颜色 */
             border-radius: 5px;
+            width: 250px; /* 输入框宽度 */
             font-size: 1em;
+            margin-bottom: 20px;
         }
 
-        #submit-password {
-            padding: 10px;
-            background: linear-gradient(45deg, #d81b60, #e91e63);
-            color: white;
+        #password::placeholder {
+            color: #999; /* 占位符颜色 */
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #d81b60; /* 按钮背景颜色 */
+            color: white; /* 按钮文字颜色 */
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 1em;
-            transition: background 0.3s ease;
+            transition: background-color 0.3s ease;
         }
 
-        #submit-password:hover {
-            background: linear-gradient(45deg, #e91e63, #d81b60);
-        }
-
-        #error-message {
-            margin-top: 10px;
-            font-size: 0.9em;
-            display: none; /* 默认隐藏 */
+        button:hover {
+            background-color: #e91e63; /* 悬停时的背景颜色 */
         }
     </style>
 </head>
 <body>
-    <!-- 添加音乐播放器 -->
-    <audio id="bgMusic" loop>
-        <source src="music/yq.mp3" type="audio/mpeg">
-    </audio>
-    
-    <div class="music-player" onclick="toggleMusic()">
-        <i class="fas fa-music"></i>
+    <div id="password-container">
+        <h2>请输入密码以进入页面</h2>
+        <input type="password" id="password" placeholder="输入密码" />
+        <button onclick="checkPassword()">提交</button>
     </div>
 
-    <nav class="nav">
-        <ul>
-            <li><a href="index.html"><i class="fas fa-arrow-left"></i> 返回</a></li>
-        </ul>
-    </nav>
-
-    <div class="header">
-        <div class="decoration"></div>
-        <h1>美好相册</h1>
-    </div>
-
-    <div class="password-container">
-        <input type="password" id="password" placeholder="请输入密码" />
-        <button id="submit-password">提交</button>
-        <p id="error-message" style="color: red; display: none;">密码错误，请重试。</p>
-    </div>
-
-    <div class="content" style="display: none;">
-        <div class="photo-grid"></div>
-    </div>
-
-    <div class="viewer">
-        <div class="viewer-close"><i class="fas fa-times"></i></div>
-        <div class="viewer-prev"><i class="fas fa-chevron-left"></i></div>
-        <div class="viewer-next"><i class="fas fa-chevron-right"></i></div>
-        <div class="viewer-content">
-            <img class="viewer-img" src="" alt="">
+    <div id="main-content" style="display: none;">
+        <!-- 添加音乐播放器 -->
+        <audio id="bgMusic" loop>
+            <source src="music/yq.mp3" type="audio/mpeg">
+        </audio>
+        
+        <div class="music-player" onclick="toggleMusic()">
+            <i class="fas fa-music"></i>
         </div>
-        <div class="viewer-counter"></div>
-    </div>
 
-    <div class="loading">
-        <i class="fas fa-spinner fa-spin"></i> 正在加载照片...
-    </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-arrow-left"></i> 返回</a></li>
+            </ul>
+        </nav>
 
-    <footer class="footer">
-        <p>版权所有 © 2024 彭浩然</p>
-    </footer>
+        <div class="header">
+            <div class="decoration"></div>
+            <h1>美好相册</h1>
+        </div>
+
+        <div class="content">
+            <div class="photo-grid"></div>
+        </div>
+
+        <div class="viewer">
+            <div class="viewer-close"><i class="fas fa-times"></i></div>
+            <div class="viewer-prev"><i class="fas fa-chevron-left"></i></div>
+            <div class="viewer-next"><i class="fas fa-chevron-right"></i></div>
+            <div class="viewer-content">
+                <img class="viewer-img" src="" alt="">
+            </div>
+            <div class="viewer-counter"></div>
+        </div>
+
+        <div class="loading">
+            <i class="fas fa-spinner fa-spin"></i> 正在加载照片...
+        </div>
+
+        <footer class="footer">
+            <p>版权所有 © 2024 彭浩然</p>
+        </footer>
+    </div>
 
     <script>
         const totalPhotos = 100;
@@ -644,21 +650,20 @@
         // 页面加载完成后初始化自动播放
         document.addEventListener('DOMContentLoaded', initAutoPlay);
 
-        const correctPasswordHash = 'UjQ0NDAw'; // 
-        const submitButton = document.getElementById('submit-password');
-        const passwordInput = document.getElementById('password');
-        const errorMessage = document.getElementById('error-message');
-        const content = document.querySelector('.content');
+        const correctPasswordHash = "41a34db8e0b39511ed70915da9e1d27d";
 
-        submitButton.addEventListener('click', function() {
-            const hashedInput = btoa(passwordInput.value); // 对输入进行 Base64 编码
-            if (hashedInput === correctPasswordHash) {
-                content.style.display = 'block'; // 显示内容
-                document.querySelector('.password-container').style.display = 'none'; // 隐藏密码框
+        function checkPassword() {
+            const passwordInput = document.getElementById('password').value;
+            const passwordHash = CryptoJS.MD5(passwordInput).toString();
+
+            if (passwordHash === correctPasswordHash) {
+                document.getElementById('password-container').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.body.style.background = "linear-gradient(135deg, #e1bee7, #f8bbd0)"; // 成功后更改背景
             } else {
-                errorMessage.style.display = 'block'; // 显示错误信息
+                alert('密码错误，请重试。');
             }
-        });
+        }
     </script>
     <script src="js/common.js"></script>
 </body>
