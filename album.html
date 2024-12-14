@@ -643,14 +643,14 @@
         // 页面加载完成后初始化自动播放
         document.addEventListener('DOMContentLoaded', initAutoPlay);
 
-        const correctPassword = '1215';
+        const correctPassword = btoa('1215');
         const submitButton = document.getElementById('submit-password');
         const passwordInput = document.getElementById('password');
         const errorMessage = document.getElementById('error-message');
         const content = document.querySelector('.content');
 
         submitButton.addEventListener('click', function() {
-            if (passwordInput.value === correctPassword) {
+            if (btoa(passwordInput.value) === correctPassword) {
                 content.style.display = 'block';
                 document.querySelector('.password-container').style.display = 'none';
             } else {
