@@ -236,19 +236,25 @@
         }
 
         .submit-btn {
-            padding: 10px 20px;
+            padding: 8px 16px; /* 减小内边距 */
             background: linear-gradient(45deg, #d81b60, #e91e63);
             color: white;
             border: none;
             border-radius: 15px;
-            font-size: 1em;
+            font-size: 24px; /* 减小字体大小 */
+            font-family: 'HuaWeiXingKai', 'Microsoft YaHei', sans-serif; /* 设置字体 */
             cursor: pointer;
             margin-top: 10px;
-            transition: background 0.3s;
+            transition: background 0.3s, transform 0.3s; /* 添加背景和变换的过渡效果 */
         }
 
         .submit-btn:hover {
             background: linear-gradient(45deg, #e91e63, #d81b60);
+            transform: scale(1.05); /* 悬停时放大 */
+        }
+
+        .submit-btn:active {
+            transform: scale(0.95); /* 点击时缩小 */
         }
 
         .input-container {
@@ -262,12 +268,66 @@
             margin-right: 10px; /* 添加右边距以分隔输入框和按钮 */
         }
 
+        .heart-container {
+            display: flex;
+            align-items: center;
+            margin-left: 10px; /* 添加左边距以分隔按钮和爱心 */
+        }
+
+        .heart-container i {
+            font-size: 24px; /* 调整爱心图标大小 */
+        }
+
         .alert-message {
-            color: #4CAF50; /* 绿色 */
+            color: #fff; /* 文字颜色 */
             font-size: 1.2em;
             margin-top: 10px;
             text-align: center;
             display: none; /* 默认隐藏 */
+            padding: 10px; /* 内边距 */
+            border-radius: 15px; /* 圆角，与按钮一致 */
+            transition: opacity 0.5s ease; /* 添加过渡效果 */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* 添加阴影 */
+        }
+
+        .alert-success {
+            background-color: #4CAF50; /* 绿色背景 */
+        }
+
+        .alert-error {
+            background-color: #f44336; /* 红色背景 */
+        }
+
+        .heart-container i {
+            transition: transform 0.3s ease; /* 添加过渡效果 */
+            animation: heartbeat 1s infinite; /* 持续跳动效果 */
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2); /* 中间放大 */
+            }
+        }
+
+        .heart-icon {
+            animation: heartbeat 1s infinite; /* 持续跳动效果 */
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2); /* 中间放大 */
+            }
+        }
+
+        @font-face {
+            font-family: 'HuaWeiXingKai';
+            src: url('path/to/HuaWeiXingKai.ttf') format('truetype'); /* 替换为实际路径 */
         }
     </style>
 </head>
@@ -286,6 +346,7 @@
 
     <div class="welcome-card">
         <div class="decoration">🌸</div>
+        <i class="fas fa-heart" style="color: #e91e63; font-size: 36px; margin-right: 10px;"></i>
         <h1 class="welcome-title">18岁生日快乐</h1>
         <p class="welcome-text">吴静雯(姐妹)：</p>
         <p class="welcome-text">在你18岁这个特别的日子里</p>
@@ -293,9 +354,12 @@
         <p class="welcome-text">希望你能喜欢</p>
         <div class="input-container">
             <input type="password" id="password" placeholder="请输入密码" class="password-input" />
-            <button onclick="checkPassword()" class="submit-btn">点击进入</button>
-            <i class="fas fa-heart" style="color: #d81b60; margin-left: 10px;"></i>
         </div>
+        <button onclick="checkPassword()" class="submit-btn">
+            <i class="fas fa-birthday-cake" style="color: #ffffff; margin-right: 5px;"></i>
+            点击进入
+            <i class="fas fa-birthday-cake" style="color: #ffffff; margin-left: 5px;"></i>
+        </button>
         <div class="alert-message" id="alertMessage"></div>
         <script>
             function checkPassword() {
@@ -304,15 +368,17 @@
                 
                 if (passwordInput === '1215') {
                     alertMessage.textContent = '密码正确！';
+                    alertMessage.className = 'alert-message alert-success'; // 添加成功样式
                     alertMessage.style.display = 'block'; // 显示提示信息
-                    alertMessage.style.color = '#4CAF50'; // 设置颜色
+                    alertMessage.style.opacity = '1'; // 设置透明度为1
                     setTimeout(() => {
                         window.location.href = 'welcome.html'; // 密码正确后跳转到 welcome.html
                     }, 1000); // 1秒后跳转
                 } else {
                     alertMessage.textContent = '密码错误，请重试。';
+                    alertMessage.className = 'alert-message alert-error'; // 添加错误样式
                     alertMessage.style.display = 'block'; // 显示提示信息
-                    alertMessage.style.color = '#f44336'; // 设置颜色为红色
+                    alertMessage.style.opacity = '1'; // 设置透明度为1
                 }
             }
         </script>
@@ -350,10 +416,10 @@
             isPlaying = !isPlaying;
         }
 
-        // 页面加载完成后始化音乐
+        // 页面加载完成后始音
         document.addEventListener('DOMContentLoaded', initMusic);
 
-        // 初始化幕填充
+        // 初始化效果
         function initializeScreen() {
             const screenHeight = window.innerHeight;
             const screenWidth = window.innerWidth;
@@ -376,7 +442,7 @@
             for (let i = 0; i < 20; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
-                heart.textContent = ['❤', '💖', '💗', '���', '💕'][Math.floor(Math.random() * 5)];
+                heart.textContent = ['❤', '💖', '💗', '💓', '💕'][Math.floor(Math.random() * 5)];
                 heart.style.left = Math.random() * screenWidth + 'px';
                 heart.style.top = -50 + Math.random() * screenHeight + 'px';
                 heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
