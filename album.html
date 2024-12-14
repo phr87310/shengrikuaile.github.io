@@ -388,6 +388,50 @@
             letter-spacing: 1px;
             font-weight: 500;
         }
+
+        .password-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 100px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        #password {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #d81b60;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        #submit-password {
+            padding: 10px;
+            background: linear-gradient(45deg, #d81b60, #e91e63);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.3s ease;
+        }
+
+        #submit-password:hover {
+            background: linear-gradient(45deg, #e91e63, #d81b60);
+        }
+
+        #error-message {
+            margin-top: 10px;
+            font-size: 0.9em;
+            display: none; /* 默认隐藏 */
+        }
     </style>
 </head>
 <body>
@@ -411,7 +455,13 @@
         <h1>美好相册</h1>
     </div>
 
-    <div class="content">
+    <div class="password-container">
+        <input type="password" id="password" placeholder="请输入密码" />
+        <button id="submit-password">提交</button>
+        <p id="error-message" style="color: red; display: none;">密码错误，请重试。</p>
+    </div>
+
+    <div class="content" style="display: none;">
         <div class="photo-grid"></div>
     </div>
 
@@ -592,6 +642,21 @@
 
         // 页面加载完成后初始化自动播放
         document.addEventListener('DOMContentLoaded', initAutoPlay);
+
+        const correctPassword = '1215';
+        const submitButton = document.getElementById('submit-password');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('error-message');
+        const content = document.querySelector('.content');
+
+        submitButton.addEventListener('click', function() {
+            if (passwordInput.value === correctPassword) {
+                content.style.display = 'block';
+                document.querySelector('.password-container').style.display = 'none';
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        });
     </script>
     <script src="js/common.js"></script>
 </body>
