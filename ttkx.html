@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>绚丽烟花</title>
+		<style>
+			body {
+				margin: 0;
+				height: 100vh;
+				background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+				overflow: hidden;
+			}
+
+			.firework {
+				position: absolute;
+				width: 6px;
+				height: 6px;
+				border-radius: 50%;
+				filter: drop-shadow(0 0 10px currentColor);
+			}
+
+			.particle {
+				position: absolute;
+				width: 5px;
+				height: 5px;
+				border-radius: 50%;
+				transform-origin: center;
+				filter: drop-shadow(0 0 6px currentColor);
+			}
+
+			.star {
+				position: absolute;
+				width: 2px;
+				height: 2px;
+				background: white;
+				border-radius: 50%;
+				animation: twinkle 1s infinite;
+			}
+
+			.message {
+				position: absolute;
+				color: #fff;
+				font-size: 20px;
+				font-weight: bold;
+				text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+							0 0 40px rgba(255, 255, 255, 0.6);
+				pointer-events: none;
+				animation: fadeOut 2s forwards;
+				white-space: nowrap;
+			}
+
+			@keyframes twinkle {
+				0%, 100% { opacity: 0.2; }
+				50% { opacity: 1; }
+			}
+
+			@keyframes fadeOut {
+				0% { opacity: 1; transform: scale(1); }
+				50% { opacity: 1; transform: scale(1.2); }
+				100% { opacity: 0; transform: scale(1.5); }
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			// 创建更多星星
+			for (let i = 0; i < 300; i++) {
+				const star = document.createElement('div');
+				star.className = 'star';
+				star.style.left = Math.random() * 100 + '%';
+				star.style.top = Math.random() * 100 + '%';
+				star.style.animationDelay = Math.random() * 1 + 's';
+				document.body.appendChild(star);
+			}
+
+			function createFirework(x, y, color) {
+				const firework = document.createElement('div');
+				firework.className = 'firework';
+				
+				firework.style.left = x + 'px';
+				firework.style.bottom = '0';
+				firework.style.background = color;
+				document.body.appendChild(firework);
+
+				const rise = firework.animate([
+					{ bottom: '0', opacity: 1 },
+					{ bottom: y + 'px', opacity: 0.8 }
+				], {
+					duration: 1200,
+					easing: 'ease-out'
+				});
+
+				rise.onfinish = () => {
+					firework.remove();
+					explode(x, y, color);
+				};
+			}
+
+			function explode(x, y, color) {
+				const messages = ['吴静雯', '天天开心'];
+				const message = document.createElement('div');
+				message.className = 'message';
+				message.textContent = messages[Math.floor(Math.random() * messages.length)];
+				message.style.left = (x - 60) + 'px';
+				message.style.top = (window.innerHeight - y - 30) + 'px';
+				const textColors = [
+					'#ff3366', // 粉红
+					'#33ff33', // 荧光绿
+					'#3366ff', // 亮蓝
+					'#ffff00', // 黄色
+					'#ff66ff', // 粉紫
+					'#00ffff', // 青色
+					'#ff9933', // 橙色
+					'#ff0099'  // 玫红
+				];
+				const randomColor = textColors[Math.floor(Math.random() * textColors.length)];
+				message.style.color = randomColor;
+				message.style.textShadow = `0 0 20px ${randomColor}88,
+										  0 0 40px ${randomColor}66`;
+				document.body.appendChild(message);
+				
+				setTimeout(() => message.remove(), 2000);
+
+				const particles = 80;
+				for (let i = 0; i < particles; i++) {
+					const particle = document.createElement('div');
+					particle.className = 'particle';
+					particle.style.left = x + 'px';
+					particle.style.top = y + 'px';
+					particle.style.background = color;
+					document.body.appendChild(particle);
+
+					const angle = (i / particles) * 360;
+					const spread = Math.random() * 200 + 150;
+
+					particle.animate([
+						{
+							transform: 'translate(0, 0) scale(1)',
+							opacity: 1
+						},
+						{
+							transform: `translate(${Math.cos(angle * Math.PI / 180) * spread}px, 
+									   ${Math.sin(angle * Math.PI / 180) * spread}px) scale(0)`,
+							opacity: 0
+						}
+					], {
+						duration: 1500 + Math.random() * 500,
+						easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)'
+					}).onfinish = () => particle.remove();
+				}
+			}
+
+			function randomFireworks() {
+				const colors = [
+					'#ff0000', '#ffd700', '#ff69b4', '#00ff00', 
+					'#ff4500', '#00ffff', '#ff1493', '#ffff00',
+					'#9400d3', '#00ff7f', '#ff1493', '#4169e1'
+				];
+				
+				const count = 2 + Math.floor(Math.random() * 3);
+				for(let i = 0; i < count; i++) {
+					const x = Math.random() * window.innerWidth;
+					const y = 300 + Math.random() * (window.innerHeight - 500);
+					const color = colors[Math.floor(Math.random() * colors.length)];
+					setTimeout(() => {
+						createFirework(x, y, color);
+					}, Math.random() * 300);
+				}
+			}
+
+			document.addEventListener('click', (e) => {
+				const colors = [
+					'#ff0000', '#ffd700', '#ff69b4', '#00ff00',
+					'#ff4500', '#00ffff', '#ff1493', '#ffff00'
+				];
+				
+				const count = 4 + Math.floor(Math.random() * 3);
+				for(let i = 0; i < count; i++) {
+					const offsetX = (Math.random() - 0.5) * 300;
+					const offsetY = (Math.random() - 0.5) * 300;
+					const x = e.clientX + offsetX;
+					const y = window.innerHeight - e.clientY + offsetY;
+					const color = colors[Math.floor(Math.random() * colors.length)];
+					setTimeout(() => {
+						createFirework(x, y, color);
+					}, Math.random() * 300);
+				}
+			});
+
+			setInterval(randomFireworks, 600);
+		</script>
+	</body>
+</html>
