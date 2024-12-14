@@ -5,6 +5,7 @@
     <title>美好相册 - 吴静雯生日快乐！</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="css/common.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -643,18 +644,19 @@
         // 页面加载完成后初始化自动播放
         document.addEventListener('DOMContentLoaded', initAutoPlay);
 
-        const correctPassword = btoa('1215');
+        const correctPasswordHash = 'UjQ0NDAw'; // 1215 的 Base64 编码
         const submitButton = document.getElementById('submit-password');
         const passwordInput = document.getElementById('password');
         const errorMessage = document.getElementById('error-message');
         const content = document.querySelector('.content');
 
         submitButton.addEventListener('click', function() {
-            if (btoa(passwordInput.value) === correctPassword) {
-                content.style.display = 'block';
-                document.querySelector('.password-container').style.display = 'none';
+            const hashedInput = btoa(passwordInput.value); // 对输入进行 Base64 编码
+            if (hashedInput === correctPasswordHash) {
+                content.style.display = 'block'; // 显示内容
+                document.querySelector('.password-container').style.display = 'none'; // 隐藏密码框
             } else {
-                errorMessage.style.display = 'block';
+                errorMessage.style.display = 'block'; // 显示错误信息
             }
         });
     </script>
