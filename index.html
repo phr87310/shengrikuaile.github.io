@@ -218,6 +218,57 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+
+        .password-input {
+            padding: 10px;
+            border: 2px solid #d81b60;
+            border-radius: 15px;
+            font-size: 1em;
+            margin-top: 10px;
+            width: 80%;
+            max-width: 300px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .password-input:focus {
+            border-color: #e91e63;
+        }
+
+        .submit-btn {
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #d81b60, #e91e63);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(45deg, #e91e63, #d81b60);
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .password-input {
+            margin-right: 10px; /* 添加右边距以分隔输入框和按钮 */
+        }
+
+        .alert-message {
+            color: #4CAF50; /* 绿色 */
+            font-size: 1.2em;
+            margin-top: 10px;
+            text-align: center;
+            display: none; /* 默认隐藏 */
+        }
     </style>
 </head>
 <body>
@@ -240,7 +291,31 @@
         <p class="welcome-text">在你18岁这个特别的日子里</p>
         <p class="welcome-text">这是我为你准备的成人礼物</p>
         <p class="welcome-text">希望你能喜欢</p>
-        <a href="welcome.html" class="enter-btn">点击进入 <i class="fas fa-heart"></i></a>
+        <div class="input-container">
+            <input type="password" id="password" placeholder="请输入密码" class="password-input" />
+            <button onclick="checkPassword()" class="submit-btn">点击进入</button>
+            <i class="fas fa-heart" style="color: #d81b60; margin-left: 10px;"></i>
+        </div>
+        <div class="alert-message" id="alertMessage"></div>
+        <script>
+            function checkPassword() {
+                const passwordInput = document.getElementById('password').value;
+                const alertMessage = document.getElementById('alertMessage');
+                
+                if (passwordInput === '1215') {
+                    alertMessage.textContent = '密码正确！';
+                    alertMessage.style.display = 'block'; // 显示提示信息
+                    alertMessage.style.color = '#4CAF50'; // 设置颜色
+                    setTimeout(() => {
+                        window.location.href = 'welcome.html'; // 密码正确后跳转到 welcome.html
+                    }, 1000); // 1秒后跳转
+                } else {
+                    alertMessage.textContent = '密码错误，请重试。';
+                    alertMessage.style.display = 'block'; // 显示提示信息
+                    alertMessage.style.color = '#f44336'; // 设置颜色为红色
+                }
+            }
+        </script>
         <div class="birthday-date">
             <i class="fas fa-clock"></i>
             18岁生日：2024年12月15日
@@ -275,10 +350,10 @@
             isPlaying = !isPlaying;
         }
 
-        // 页面加载完成后初始化音乐
+        // 页面加载完成后始化音乐
         document.addEventListener('DOMContentLoaded', initMusic);
 
-        // 初始化屏幕填充
+        // 初始化幕填充
         function initializeScreen() {
             const screenHeight = window.innerHeight;
             const screenWidth = window.innerWidth;
@@ -301,7 +376,7 @@
             for (let i = 0; i < 20; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
-                heart.textContent = ['❤', '💖', '💗', '💓', '💕'][Math.floor(Math.random() * 5)];
+                heart.textContent = ['❤', '💖', '💗', '���', '💕'][Math.floor(Math.random() * 5)];
                 heart.style.left = Math.random() * screenWidth + 'px';
                 heart.style.top = -50 + Math.random() * screenHeight + 'px';
                 heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
