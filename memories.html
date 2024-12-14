@@ -5,22 +5,70 @@
     <title>美好回忆 - 吴静雯生日快乐！</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="css/common.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
     <style>
-        /* 复用基础样式 */
         body {
             margin: 0;
             padding: 0;
             background: linear-gradient(135deg, #fce4ec, #f3e5f5);
             font-family: "Microsoft YaHei", sans-serif;
             min-height: 100vh;
+            overflow-x: hidden;
         }
-        
-        /* 复用头部和导航样式 */
+
+        /* 添加密码框样式 */
+        #password-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* 使其占满整个视口高度 */
+            background: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            position: relative;
+            z-index: 1000; /* 确保在其他内容之上 */
+        }
+
+        #password-container h2 {
+            margin-bottom: 20px;
+            color: #d81b60; /* 标题颜色 */
+        }
+
+        #password {
+            padding: 10px;
+            border: 1px solid #d81b60; /* 边框颜色 */
+            border-radius: 5px;
+            width: 250px; /* 输入框宽度 */
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+
+        #password::placeholder {
+            color: #999; /* 占位符颜色 */
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #d81b60; /* 按钮背景颜色 */
+            color: white; /* 按钮文字颜色 */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e91e63; /* 悬停时的背景颜色 */
+        }
+
+        /* 复用基础样式 */
         .header, .nav, .footer {
             /* 与其他页面相同的样式 */
         }
-        
+
         /* 内容区域优化 */
         .content {
             max-width: 1200px;
@@ -29,9 +77,8 @@
             padding-bottom: 100px;
             position: relative;
             z-index: 2;
-            display: none; /* 默认隐藏内容 */
         }
-        
+
         /* 回忆时间轴样式优化 */
         .memories-section {
             background: rgba(255, 255, 255, 0.95);
@@ -43,7 +90,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .section-title {
             text-align: center;
             font-size: 2.4em;
@@ -56,7 +103,7 @@
             letter-spacing: 4px;
             position: relative;
         }
-        
+
         .section-title::after {
             content: '';
             position: absolute;
@@ -68,14 +115,14 @@
             background: linear-gradient(90deg, #d81b60, #e91e63);
             border-radius: 2px;
         }
-        
+
         .timeline {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px 0;
         }
-        
+
         .timeline::after {
             content: '';
             position: absolute;
@@ -88,7 +135,7 @@
             border-radius: 2px;
             box-shadow: 0 0 15px rgba(216, 27, 96, 0.3);
         }
-        
+
         .memory-item {
             padding: 20px 40px;
             position: relative;
@@ -97,17 +144,17 @@
             animation: fadeInUp 0.6s ease-out forwards;
             opacity: 0;
         }
-        
+
         .memory-item:nth-child(odd) {
             left: 0;
             animation-delay: 0.3s;
         }
-        
+
         .memory-item:nth-child(even) {
             left: 50%;
             animation-delay: 0.6s;
         }
-        
+
         .memory-content {
             padding: 30px;
             background: white;
@@ -119,12 +166,12 @@
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        
+
         .memory-content:hover {
             transform: translateY(-10px) scale(1.02);
             box-shadow: 0 15px 35px rgba(216, 27, 96, 0.15);
         }
-        
+
         .memory-date {
             color: transparent;
             background: linear-gradient(45deg, #d81b60, #e91e63);
@@ -136,7 +183,7 @@
             letter-spacing: 1px;
             text-align: center;
         }
-        
+
         .memory-image {
             width: 100%;
             height: auto;
@@ -147,12 +194,12 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             transition: all 0.4s ease;
         }
-        
+
         .memory-content:hover .memory-image {
             transform: scale(1.03);
             box-shadow: 0 12px 30px rgba(216, 27, 96, 0.2);
         }
-        
+
         .memory-text {
             color: #424242;
             line-height: 1.8;
@@ -161,7 +208,7 @@
             text-align: center;
             letter-spacing: 1px;
         }
-        
+
         /* 时间点样式优化 */
         .memory-item::before {
             content: '📸';
@@ -179,15 +226,15 @@
             font-size: 20px;
             animation: pulse 2s infinite;
         }
-        
+
         .memory-item:nth-child(odd)::before {
             right: -60px;
         }
-        
+
         .memory-item:nth-child(even)::before {
             left: -60px;
         }
-        
+
         /* 连接线样式优化 */
         .memory-item::after {
             content: '';
@@ -198,15 +245,15 @@
             top: 39px;
             z-index: 1;
         }
-        
+
         .memory-item:nth-child(odd)::after {
             right: -40px;
         }
-        
+
         .memory-item:nth-child(even)::after {
             left: -40px;
         }
-        
+
         /* 动画效果 */
         @keyframes fadeInUp {
             from {
@@ -218,58 +265,13 @@
                 transform: translateY(0);
             }
         }
-        
+
         @keyframes pulse {
             0% { transform: scale(1); box-shadow: 0 0 15px rgba(216, 27, 96, 0.3); }
             50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(216, 27, 96, 0.5); }
             100% { transform: scale(1); box-shadow: 0 0 15px rgba(216, 27, 96, 0.3); }
         }
-        
-        /* 装饰元素 */
-        .memories-section::before {
-            content: '🎬';
-            position: absolute;
-            font-size: 200px;
-            opacity: 0.03;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
-            50% { transform: translate(-50%, -45%) rotate(5deg); }
-        }
-        
-        /* 响应式优化 */
-        @media screen and (max-width: 768px) {
-            .timeline::after {
-                left: 30px;
-            }
-            
-            .memory-item {
-                width: calc(100% - 80px);
-                padding-left: 70px;
-                padding-right: 20px;
-            }
-            
-            .memory-item:nth-child(odd),
-            .memory-item:nth-child(even) {
-                left: 0;
-            }
-            
-            .memory-item::before {
-                left: 10px !important;
-            }
-            
-            .memory-item::after {
-                left: 30px !important;
-                width: 30px;
-            }
-        }
-        
+
         /* 导航栏样式 */
         .nav {
             background: rgba(255, 255, 255, 0.9);
@@ -283,7 +285,7 @@
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
-        
+
         .nav ul {
             list-style: none;
             padding: 0;
@@ -292,11 +294,11 @@
             justify-content: center;
             gap: 50px;
         }
-        
+
         .nav li {
             position: relative;
         }
-        
+
         .nav a {
             text-decoration: none;
             color: #9c27b0;
@@ -309,7 +311,7 @@
             display: inline-block;
             letter-spacing: 1px;
         }
-        
+
         /* 悬浮效果 */
         .nav a::before {
             content: '';
@@ -324,12 +326,12 @@
             opacity: 0;
             transition: all 0.3s ease;
         }
-        
+
         .nav a:hover::before {
             transform: scale(1);
             opacity: 1;
         }
-        
+
         .nav a::after {
             content: '';
             position: absolute;
@@ -341,40 +343,40 @@
             transform: translateX(-50%);
             transition: width 0.3s ease;
         }
-        
+
         .nav a:hover {
             color: #d81b60;
             transform: translateY(-2px);
         }
-        
+
         .nav a:hover::after {
             width: 70%;
         }
-        
+
         /* 当前页面激活状态 */
         .nav a.active {
             color: #d81b60;
             background: rgba(216, 27, 96, 0.1);
         }
-        
+
         .nav a.active::before {
             opacity: 1;
             transform: scale(1);
             background: rgba(216, 27, 96, 0.15);
         }
-        
+
         .nav a.active::after {
             width: 70%;
             height: 3px;
             background: linear-gradient(90deg, #d81b60, #e91e63);
         }
-        
+
         /* 导航项图标样式 */
         .nav a i {
             margin-right: 8px;
             font-size: 1em;
         }
-        
+
         /* 头部样式 */
         .header {
             text-align: center;
@@ -384,7 +386,7 @@
             overflow: hidden;
             margin-top: 0;
         }
-        
+
         .header::before {
             content: '';
             position: absolute;
@@ -395,7 +397,7 @@
             background: linear-gradient(45deg, rgba(255, 192, 203, 0.2), rgba(255, 182, 193, 0.2));
             z-index: 0;
         }
-        
+
         .header h1 {
             color: transparent;
             background: linear-gradient(45deg, #d81b60, #e91e63, #ec407a);
@@ -411,28 +413,12 @@
             letter-spacing: 8px;
             animation: titleFloat 3s ease-in-out infinite;
         }
-        
-        .header::after {
-            content: '🌸';
-            position: absolute;
-            font-size: 40px;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0.6;
-            animation: flowerSway 3s ease-in-out infinite;
-        }
-        
+
         @keyframes titleFloat {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
-        
-        @keyframes flowerSway {
-            0%, 100% { transform: translateX(-50%) rotate(0deg); }
-            50% { transform: translateX(-50%) rotate(15deg); }
-        }
-        
+
         /* 音乐播放器样式 */
         .music-player {
             position: fixed;
@@ -491,123 +477,95 @@
             letter-spacing: 1px;
             font-weight: 500;
         }
-
-        /* 密码输入框样式 */
-        .password-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 100px auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 90%;
-        }
-
-        #password {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #d81b60;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        #submit-password {
-            padding: 10px;
-            background: linear-gradient(45deg, #d81b60, #e91e63);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background 0.3s ease;
-        }
-
-        #submit-password:hover {
-            background: linear-gradient(45deg, #e91e63, #d81b60);
-        }
-
-        #error-message {
-            margin-top: 10px;
-            font-size: 0.9em;
-            display: none; /* 默认隐藏 */
-        }
     </style>
 </head>
 <body>
-    <audio id="bgMusic" loop>
-        <source src="music/birthday.mp3" type="audio/mpeg">
-    </audio>
-
-    <div class="music-player" onclick="toggleMusic()">
-        <i class="fas fa-music"></i>
+    <div id="password-container">
+        <h2>请输入密码以进入页面</h2>
+        <input type="password" id="password" placeholder="输入密码" />
+        <button onclick="checkPassword()">提交</button>
     </div>
 
-    <nav class="nav">
-        <ul>
-            <li><a href="index.html"><i class="fas fa-arrow-left"></i> 返回</a></li>
-        </ul>
-    </nav>
+    <div id="main-content" style="display: none;">
+        <audio id="bgMusic" loop>
+            <source src="music/birthday.mp3" type="audio/mpeg">
+        </audio>
 
-    <div class="header">
-        <div class="decoration"></div>
-        <h1>美好回忆</h1>
-    </div>
-    
-    <div class="content">
-        <section class="memories-section">
-            <h2 class="section-title">我们的故事</h2>
-            <div class="timeline">
-                <div class="memory-item">
-                    <div class="memory-content">
-                        <div class="memory-date">2024年8月27日</div>
-                        <img src="images/memory1.jpg" alt="东大时代广场" class="memory-image">
-                        <p class="memory-text">那天，我们一起度过了一个温馨一天。你穿着深绿色的短袖，这是在吃火锅中拍了这张照片。</p>
-                    </div>
-                </div>
-                
-                <div class="memory-item">
-                    <div class="memory-content">
-                        <div class="memory-date">2024年9月6日</div>
-                        <img src="images/memory2.jpg" alt="小龙坎火锅店" class="memory-image">
-                        <p class="memory-text">开学季，我们一起去吃火锅，咕噜噜，冒泡泡。</p>
-                    </div>
-                </div>
-                
-                <div class="memory-item">
-                    <div class="memory-content">
-                        <div class="memory-date">2024年9月6日</div>
-                        <img src="images/memory3.jpg" alt="安陆公交站" class="memory-image">
-                        <p class="memory-text">那天，我们一起吃了火锅。这是咱们最浪漫的一次。</p>
-                    </div>
-                </div>
-                
-                <div class="memory-item">
-                    <div class="memory-content">
-                        <div class="memory-date">2024年10月5日</div>
-                        <img src="images/memory4.jpg" alt="国庆节开学" class="memory-image">
-                        <p class="memory-text">那天，我们第一次一起坐火车去学校，呜呜呜，每天都很想你。</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    
-    <footer class="footer">
-        <p>版权所有 © 2024 彭浩然</p>
-    </footer>
+        <div class="music-player" onclick="toggleMusic()">
+            <i class="fas fa-music"></i>
+        </div>
 
-    <div class="password-container">
-        <input type="password" id="password" placeholder="请输入密码" />
-        <button id="submit-password">提交</button>
-        <p id="error-message" style="color: red; display: none;">密码错误，请重试。</p>
+        <nav class="nav">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-arrow-left"></i> 返回</a></li>
+            </ul>
+        </nav>
+
+        <div class="header">
+            <div class="decoration"></div>
+            <h1>美好回忆</h1>
+        </div>
+        
+        <div class="content">
+            <section class="memories-section">
+                <h2 class="section-title">我们的故事</h2>
+                <div class="timeline">
+                    <div class="memory-item">
+                        <div class="memory-content">
+                            <div class="memory-date">2024年8月27日</div>
+                            <img src="images/memory1.jpg" alt="东大时代广场" class="memory-image">
+                            <p class="memory-text">那天，我们一起度过了一个温馨一天。你穿着深绿色的短袖，这是在吃火锅中拍了这张照片。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-item">
+                        <div class="memory-content">
+                            <div class="memory-date">2024年9月6日</div>
+                            <img src="images/memory2.jpg" alt="小龙坎火锅店" class="memory-image">
+                            <p class="memory-text">开学季，我们一起去吃火锅，咕噜噜，冒泡泡。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-item">
+                        <div class="memory-content">
+                            <div class="memory-date">2024年9月6日</div>
+                            <img src="images/memory3.jpg" alt="安陆公交站" class="memory-image">
+                            <p class="memory-text">那天，我们一起吃了火锅。这是咱们最浪漫的一次。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-item">
+                        <div class="memory-content">
+                            <div class="memory-date">2024年10月5日</div>
+                            <img src="images/memory4.jpg" alt="国庆节开学" class="memory-image">
+                            <p class="memory-text">那天，我们第一次一起坐火车去学校，呜呜呜，每天都很想你。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer class="footer">
+            <p>版权所有 © 2024 彭浩然</p>
+        </footer>
     </div>
 
     <script>
+        const correctPasswordHash = "41a34db8e0b39511ed70915da9e1d27d"; // "wjw0103" 的 MD5 哈希值
+
+        function checkPassword() {
+            const passwordInput = document.getElementById('password').value;
+            const passwordHash = CryptoJS.MD5(passwordInput).toString();
+
+            if (passwordHash === correctPasswordHash) {
+                document.getElementById('password-container').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.body.style.background = "linear-gradient(135deg, #e1bee7, #f8bbd0)"; // 成功后更改背景
+            } else {
+                alert('密码错误，请重试。');
+            }
+        }
+
         // 音乐控制
         const music = document.getElementById('bgMusic');
         const musicIcon = document.querySelector('.music-player i');
@@ -623,22 +581,6 @@
             }
             isPlaying = !isPlaying;
         }
-
-        const correctPasswordHash = CryptoJS.SHA256('wjw0103').toString(); // 使用 SHA-256 哈希密码
-        const submitButton = document.getElementById('submit-password');
-        const passwordInput = document.getElementById('password');
-        const errorMessage = document.getElementById('error-message');
-        const content = document.querySelector('.content'); // 确保有内容区域
-
-        submitButton.addEventListener('click', function() {
-            const hashedInput = CryptoJS.SHA256(passwordInput.value).toString(); // 对输入进行 SHA-256 哈希
-            if (hashedInput === correctPasswordHash) {
-                content.style.display = 'block'; // 显示内容
-                document.querySelector('.password-container').style.display = 'none'; // 隐藏密码框
-            } else {
-                errorMessage.style.display = 'block'; // 显示错误信息
-            }
-        });
     </script>
     <script src="js/common.js"></script>
 </body>
